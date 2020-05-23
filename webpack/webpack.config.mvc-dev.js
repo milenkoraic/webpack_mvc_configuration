@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common-mvc');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var HtmlMinifierPlugin = require('html-minifier-webpack-plugin');
 
 module.exports = merge(common, {
     mode: 'development',
@@ -20,6 +21,11 @@ module.exports = merge(common, {
     externals: {
         jquery: 'jQuery'
     },
+    module: {
+        loaders: [
+            { test: /\.html$/, loaders: ['file-loader?name=[name].html', 'extract-loader', 'html-loader'] }
+        ]
+    },
     plugins: [
         new Webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
@@ -28,6 +34,9 @@ module.exports = merge(common, {
             filename: 'css/[name]/[name].css',
         }),
         new BundleAnalyzerPlugin(),
+        new HtmlMinifierPlugin({
+            filename: 'Views/[name]/[name].html',
+        }),
     ],
     module: {
         rules: [

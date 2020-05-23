@@ -3,6 +3,7 @@ const Webpack = require('webpack');
 const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const common = require('./webpack.common-mvc.js');
+var HtmlMinifierPlugin = require('html-minifier-webpack-plugin');
 
 module.exports = merge(common, {
     mode: 'production',
@@ -23,6 +24,9 @@ module.exports = merge(common, {
         new Webpack.optimize.ModuleConcatenationPlugin(),
         new MiniCssExtractPlugin({
             filename: 'css/[name]/[name].min.css',
+        }),
+        new HtmlMinifierPlugin({
+            filename: 'Views/[name]/[name].html',
         }),
     ],
     module: {
